@@ -16,26 +16,9 @@
 
 .react-chatbot-kit-chat-bot-message {
   background-color: transparent !important;
-  color: rgb(78, 79, 79) !important;
-  font-weight: bold !important;
-  border-radius: 10px !important;
-  padding: 10px !important;
-  max-width: 80% !important;
-  text-align: left !important;
-  border: 2px solid rgba(100, 100, 100, 0.3) !important; /* ✅ Border added */
-}
-
-.react-chatbot-kit-chat-bot-message-container{
-  display: flex !important;
-  justify-content: flex-start;
-}
-
-.react-chatbot-kit-chat-bot-message{
-  margin-left: 2vw !important;
-}
-
-.react-chatbot-kit-chat-bot-message-arrow {
-  transform: translateX(-3px) !important;
+  color: rgb(78,79,79) !important;
+  border: 5px rgb(78,79,79) !important;
+  border-radius: 10px;
 }
 
 /* ✅ User message styles */

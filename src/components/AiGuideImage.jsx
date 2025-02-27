@@ -1,10 +1,7 @@
 import React from "react";
 
 const AiGuideImage = ({ payload }) => {
-    if (!payload.image) {
-        return null; // ✅ Don't render anything if image is empty
-      }
-    
+    console.log("Hi from BotResponse")
   return (
     <div style={{
       backgroundColor: "rgb(87,86,86)",
@@ -13,7 +10,8 @@ const AiGuideImage = ({ payload }) => {
       maxWidth: "250px",
       textAlign: "center",
     }}>
-      {payload.image != "" && (
+      <p>💡 AI 가이드:</p>
+      {payload.image && (
         <img 
           src={payload.image} 
           alt="AI Generated Guide" 
