@@ -12,7 +12,7 @@ const AppRouter = () => {
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/test" element={<TestComponent />} />
-        <Route path="/upload" element={<S3Upload />} />
+        {/* <Route path="/upload" element={<S3Upload />} /> */}
         {/* <Route path="/sss" element={<SSS />} /> */}
       </Routes>
     </Router>
