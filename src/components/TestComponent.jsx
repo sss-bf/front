@@ -5,7 +5,7 @@ const TestComponent = ({ state, setState }) => {
   const isRequesting = useRef(false);
 
   const sendPostRequest = async () => {
-    if (!state.imageUrl || !state.userMessage || isRequesting.current) return;
+    if (isRequesting.current) return;
 
     isRequesting.current = true;
 
@@ -89,6 +89,17 @@ const TestComponent = ({ state, setState }) => {
   }, [state.aiGuideText, state.aiGuideImage]); // ✅ Wait until both are set
 
   return null;
+  };
+
+  useEffect(() => {
+    console.log("state.imageUrl : ", state.imageUrl)
+    if (state.imageUrl || state.userMessage) {
+      sendPostRequest();
+      console.log("hi from test component")
+    }
+  }, [state.imageUrl, state.userMessage]);
+
+
 };
 
 export default TestComponent;
