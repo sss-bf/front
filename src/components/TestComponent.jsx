@@ -1,21 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
-import { createChatBotMessage } from "react-chatbot-kit";
+import {
+  createChatBotMessage,
+  createCustomMessage,
+} from "react-chatbot-kit";
 
-const TestComponent = ({ state, setState }) => {
+const TestComponent = ({ state, setState }) => { // ✅ Receive chatbot state (imageUrl, userMessage)
+  const [response, setResponse] = useState(null);
+  const [imgUrl, setImgUrl] = useState("");
   const isRequesting = useRef(false);
 
   const sendPostRequest = async () => {
-    if (isRequesting.current) return;
+    if (!state.imageUrl || !state.userMessage || isRequesting.current) return; // ✅ Prevent sending request if data is missing
 
     isRequesting.current = true;
 
-    setState((prev) => ({
-      ...prev,
-      isProcessing: true,
-      isWaitingForResponse: true,
-      aiGuideText: "", // Clear previous guide
-      aiGuideImage: "",
-    }));
+    setState((prev) => ({ ...prev, isProcessing: true }));
 
     const formData = new FormData();
     formData.append("url", state.imageUrl);
@@ -32,48 +31,55 @@ const TestComponent = ({ state, setState }) => {
       }
 
       const data = await res.json();
-
+      setResponse(data);
+      setImgUrl(data.guideImageUrl);
+      
       setState((prev) => ({
         ...prev,
-        aiGuideText: data.guideText,
-        aiGuideImage: data.guideImageUrl, // ✅ Save image first
+        aiGuideText: data.guideText, // ✅ Save AI-generated text
+        aiGuideImage: data.guideImageUrl, // ✅ Save AI-generated image
         isProcessing: false,
-        isWaitingForResponse: false,
       }));
 
-      console.log("✅ Response received:", data);
-    } catch (error) {
-      console.error("POST 요청 오류:", error);
-      setState((prev) => ({ ...prev, isProcessing: false, isWaitingForResponse: false }));
-    } finally {
-      isRequesting.current = false;
-    }
-  };
-
-  useEffect(() => {
-    if (state.imageUrl && state.userMessage) {
-      sendPostRequest();
-    }
-  }, [state.imageUrl, state.userMessage]);
-
-  // ✅ Ensure `botMessage` is created only when image is fully set
-  useEffect(() => {
-    if (state.aiGuideText && state.aiGuideImage) {
-      console.log("✅ Guide image available, creating bot message...");
-
-      const botMessage = createChatBotMessage(`${state.aiGuideText}`, {
-        widget: "aiGuideImage",
-        payload: { image: state.aiGuideImage },
+      const botMessage = createChatBotMessage(`${data.guideText}`, {
+          widget: 'aiGuideImage',
+          payload: {image: data.guideImageUrl}
       });
 
       setState((prev) => ({
         ...prev,
-        messages: [...prev.messages, botMessage],
+        messages: [...prev.messages, botMessage], // ✅ Append message to chatbot
       }));
-    }
-  }, [state.aiGuideText, state.aiGuideImage]); // ✅ Wait until both are set
 
-  return null;
+      console.log("응답 데이터:", data);
+
+      setTimeout(() => {
+        setState((prev) => ({
+          ...prev,
+          aiGuideText: "",
+          aiGuideImage: "",
+          messages: [
+            ...prev.messages,
+            createChatBotMessage("📂 파일을 추가로 업로드 하시겠습니까?", {
+              widget: "fileUpload",
+            }),
+          ],
+        }));
+      }, ); // ✅ Restart process after 5 seconds
+    } catch (error) {
+      console.error("POST 요청 오류:", error);
+    }
+  };
+
+  useEffect(() => {
+    console.log("state.imageUrl : ", state.imageUrl)
+    if (state.imageUrl && state.userMessage) {
+      sendPostRequest();
+      console.log("hi from test component")
+    }
+  }, [state.imageUrl, state.userMessage]);
+
+
 };
 
-export default TestComponent;
+export default TestComponent; // ✅ Make sure this is a default export
