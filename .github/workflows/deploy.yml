@@ -31,7 +31,9 @@ jobs:
                 echo "REACT_APP_AWS_ACCESS_KEY=${{ secrets.S3_AWS_ACCESS_KEY }}" >> .env
                 echo "REACT_APP_AWS_SECRET_KEY=${{ secrets.S3_AWS_SECRET_KEY }}" >> .env
             
-
+            - name: Debug Check .env contents
+              run: cat .env
+              
             - name: Configure AWS Credentials
               uses: aws-actions/configure-aws-credentials@v1
               with:
