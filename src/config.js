@@ -59,18 +59,37 @@ const config = {
     imageUrl: "", // ✅ Store image URL
   },
   customComponents: {
-    header: () => <div style={headerStyle}>SinSa</div>,
+    header: () => <div style={headerStyle}><div style={headerContentStyle}>Sinsa</div></div>,
     input: () => <div></div>
   },
 };
 
 const headerStyle = {
-  background: ' #ff7b54',
+  height: '5vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  background: ' #a71f31',
   color: '#000000',
   padding: "10px",
   fontSize: "16px",
   textAlign: "center",
   fontWeight: "bold",
 };
+
+const headerContentStyle = {
+  height: '5vh',
+  
+  borderRadius: '25%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  background: 'white',
+  color: '#000000',
+  padding: "10px",
+  fontSize: "16px",
+  textAlign: "center",
+  fontWeight: "bold",
+}
 
 export default config;
