@@ -4,7 +4,7 @@ const AiGuideImage = ({ payload }) => {
     console.log("Hi from BotResponse")
   return (
     <div style={{
-      backgroundColor: "#f4f4f4",
+      backgroundColor: "rgb(87,86,86)",
       padding: "10px",
       borderRadius: "8px",
       maxWidth: "250px",
