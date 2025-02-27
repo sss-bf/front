@@ -21,7 +21,7 @@ const TestComponent = ({ state, setState }) => { // ✅ Receive chatbot state (i
     formData.append("intend", state.userMessage);
 
     try {
-      const res = await fetch("http://localhost:8080/test", {
+      const res = await fetch("http://localhost:8080", {
         method: "POST",
         body: formData,
       });
