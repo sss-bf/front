@@ -13,9 +13,6 @@ const TestComponent = ({ state, setState }) => { // ✅ Receive chatbot state (i
     if (!state.imageUrl || !state.userMessage || isRequesting.current) return; // ✅ Prevent sending request if data is missing
 
     isRequesting.current = true;
-
-    setState((prev) => ({ ...prev, isProcessing: true }));
-
     const formData = new FormData();
     formData.append("url", state.imageUrl);
     formData.append("intend", state.userMessage);
@@ -55,9 +52,10 @@ const TestComponent = ({ state, setState }) => { // ✅ Receive chatbot state (i
       setTimeout(() => {
         setState((prev) => ({
           ...prev,
+          userMessage: "",
+          imageUrl: "",
           aiGuideText: "",
           aiGuideImage: "",
-          isProcessing: false,
           messages: [
             ...prev.messages,
             createChatBotMessage("📂 파일을 추가로 업로드 하시겠습니까?", {
@@ -78,8 +76,6 @@ const TestComponent = ({ state, setState }) => { // ✅ Receive chatbot state (i
       console.log("hi from test component")
     }
   }, [state.imageUrl, state.userMessage]);
-
-
 };
 
 export default TestComponent; // ✅ Make sure this is a default export

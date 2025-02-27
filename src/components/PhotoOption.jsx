@@ -16,15 +16,15 @@ const PhotoOption = ({ setState, actionProvider }) => {
 
   return (
     <div style={{ display: "flex", gap: "10px", flexDirection: "column", padding: "10px" }}>
-      <button onClick={() => handleOptionSelect("인물")} style={buttonStyle}>인물</button>
-      <button onClick={() => handleOptionSelect("사물")} style={buttonStyle}>사물</button>
+      <button onClick={() => handleOptionSelect("인물")} style={buttonStyle}>👤 인물</button>
+      <button onClick={() => handleOptionSelect("사물")} style={buttonStyle}>📷 사물</button>
     </div>
   );
 };
 
 // ✅ Style for buttons
 const buttonStyle = {
-  backgroundColor: "rgb(87,86,86)",
+  backgroundColor: "#5ccc9d",
   border: "none",
   padding: "10px",
   color: "white",
