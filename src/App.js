@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import './fonts/font.css'
 // import Chatbot from './components/Chatbot.js';
 import Chatbot from 'react-chatbot-kit'
 import 'react-chatbot-kit/build/main.css'

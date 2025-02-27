@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
+import { marked } from "marked";
 import {
   createChatBotMessage,
   createCustomMessage,
 } from "react-chatbot-kit";
 
-const TestComponent = ({ state, setState }) => { // ✅ Receive chatbot state (imageUrl, userMessage)
+const TestComponent = ({ state, setState }) => {
   const [response, setResponse] = useState(null);
   const [imgUrl, setImgUrl] = useState("");
   const isRequesting = useRef(false);
 
   const sendPostRequest = async () => {
-    if (isRequesting.current) return; // ✅ Prevent sending request if data is missing
+    if (isRequesting.current) return; 
 
     isRequesting.current = true;
 
@@ -36,20 +37,38 @@ const TestComponent = ({ state, setState }) => { // ✅ Receive chatbot state (i
       setResponse(data);
       setImgUrl(data.guideImageUrl);
       
+      console.log(data.guideText);
+      const markdownText = data.guideText;
+
+const removeHtmlTags = (html) => {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+
+  // ✅ Convert <p> and <div> to text with `\n`
+  doc.body.querySelectorAll("p, div").forEach((el) => {
+    el.replaceWith(el.textContent + "\n");
+  });
+
+  let cleanText = doc.body.textContent.trim();
+
+  return cleanText;
+};
+
+const cleanText = removeHtmlTags(markdownText);
+
       setState((prev) => ({
         ...prev,
-        aiGuideText: data.guideText, // ✅ Save AI-generated text
-        aiGuideImage: data.guideImageUrl, // ✅ Save AI-generated image
+        aiGuideText: data.guideText,
+        aiGuideImage: data.guideImageUrl,
       }));
 
-      const botMessage = createChatBotMessage(`${data.guideText}`, {
+      const botMessage = createChatBotMessage(`${cleanText}`, {
           widget: 'aiGuideImage',
           payload: {image: data.guideImageUrl}
       });
 
       setState((prev) => ({
         ...prev,
-        messages: [...prev.messages, botMessage], // ✅ Append message to chatbot
+        messages: [...prev.messages, botMessage],
       }));
 
       console.log("응답 데이터:", data);
@@ -57,13 +76,14 @@ const TestComponent = ({ state, setState }) => { // ✅ Receive chatbot state (i
       setTimeout(() => {
         setState((prev) => ({
           ...prev,
+          imageUrl: "",
           aiGuideText: "",
           aiGuideImage: "",
           isProcessing: false,
           messages: [
             ...prev.messages,
-            createChatBotMessage("📂 파일을 추가로 업로드 하시겠습니까?", {
-              widget: "fileUpload",
+            createChatBotMessage("추가적으로 무엇을 도와드릴까요?", {
+              widget: "newFileUpload",
             }),
           ],
         }));
