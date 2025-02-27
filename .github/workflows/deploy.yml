@@ -1,9 +1,10 @@
-name : Deploy-Production
+name: Deploy-Production
 
 on:
     push:
         branches:
             - prod
+
 jobs:
     build:
         runs-on: ubuntu-latest
@@ -11,18 +12,19 @@ jobs:
             matrix:
                 node-version: [22.x]
         steps:
-            - name: Checkout Source Code.
+            - name: Checkout Source Code
               uses: actions/checkout@v3
-            - name: Node.js
+              
+            - name: Setup Node.js
               uses: actions/setup-node@v3
               with:
                 node-version: ${{ matrix.node-version }}
                 cache: "npm"
 
-            - run: npm install --force
-            - name: Build Production.
-              run: CI=false npm run build --if-present
+            - name: Install Dependencies
+              run: npm install --force
               
+            # ✅ .env 파일을 먼저 생성
             - name: Create .env file
               run: |
                 echo "REACT_APP_API_BASE_URL=${{ secrets.PROD_API_BASE_URL }}" > .env
@@ -31,20 +33,29 @@ jobs:
                 echo "REACT_APP_AWS_ACCESS_KEY=${{ secrets.S3_AWS_ACCESS_KEY }}" >> .env
                 echo "REACT_APP_AWS_SECRET_KEY=${{ secrets.S3_AWS_SECRET_KEY }}" >> .env
             
+            # ✅ .env 파일 내용 확인 (디버깅용)
             - name: Debug Check .env contents
               run: cat .env
               
+            # ✅ .env가 적용된 상태에서 빌드 실행
+            - name: Build Production
+              run: CI=false npm run build --if-present
+            
+            # ✅ AWS 자격 증명 설정 (S3 배포를 위해 필요)
             - name: Configure AWS Credentials
               uses: aws-actions/configure-aws-credentials@v1
               with:
                 aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
                 aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                 aws-region: ap-northeast-2
+                
+            # ✅ S3에 배포
             - name: Deploy to S3
               env:
                 aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
                 aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
               run: aws s3 sync --region ap-northeast-2 build s3://sss-bf-front --delete    
 
+            # ✅ CloudFront 캐시 무효화 (배포 후 최신 파일을 반영하기 위해)
             - name: Invalidate CloudFront Cache
               run: aws cloudfront create-invalidation --distribution-id ${{secrets.DEV_AWS_DISTRIBUTION_ID}} --paths "/index.html" "/styles.css"
