@@ -7,7 +7,6 @@ import config from './config'
 import MessageParser from './MessageParser';
 import ActionProvider from './ActionProvider';
 function App() {
-
   return (
     <div className="App">
       <Chatbot    config={config}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AWS from "aws-sdk";
 
-const DogPicture = ({ actionProvider }) => {
+const FileUpload = ({ actionProvider }) => {
   const [file, setFile] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [isUploading, setIsUploading] = useState(false);
@@ -130,4 +130,4 @@ const DogPicture = ({ actionProvider }) => {
   );
 };
 
-export default DogPicture;
+export default FileUpload;

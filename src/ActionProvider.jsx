@@ -19,18 +19,27 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
   const handleElse = (userMessage) => {
     console.log(userMessage);
 
-    setState((prev) => ({
-      ...prev,
-      userMessage: userMessage,
-      messages: [...prev.messages, botMessage],
-    }));
-
-    const botMessage = createChatBotMessage(
-      "답변을 생성 중입니다. 잠시만 기다려 주세요...",
-      {
-        widget: 'testComponent',
+    setState((prev) => {
+      if (prev.isProcessing) {
+        console.log("❌ Request ignored - AI is still processing.");
+        return prev; // Ignore new requests
       }
-    );
+
+      console.log("✅ New request received:", userMessage);
+
+      const botMessage = createChatBotMessage(
+        "답변을 생성 중입니다. 잠시만 기다려 주세요...",
+        {
+          widget: "testComponent",
+        }
+      );
+      return {
+        ...prev,
+        isProcessing: true, // 🚀 Set processing state
+        userMessage: userMessage,
+        messages: [...prev.messages, botMessage],
+      };
+    });
   }
 
   const handlePhotoOptionSelected = (option) => {
@@ -62,7 +71,6 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
       const message = createChatBotMessage("사진이 선택되지 않았습니다. 원하시는 가이드를 입력해주세요.");
       setState((prev) => ({
         ...prev,
-        imageUrl: "",
         messages: [...prev.messages, message],
       }));
     };
