@@ -10,7 +10,7 @@ const TestComponent = ({ state, setState }) => { // ✅ Receive chatbot state (i
   const isRequesting = useRef(false);
 
   const sendPostRequest = async () => {
-    if (!state.imageUrl || !state.userMessage || isRequesting.current) return; // ✅ Prevent sending request if data is missing
+    if (isRequesting.current) return; // ✅ Prevent sending request if data is missing
 
     isRequesting.current = true;
 
@@ -73,7 +73,7 @@ const TestComponent = ({ state, setState }) => { // ✅ Receive chatbot state (i
 
   useEffect(() => {
     console.log("state.imageUrl : ", state.imageUrl)
-    if (state.imageUrl && state.userMessage) {
+    if (state.imageUrl || state.userMessage) {
       sendPostRequest();
       console.log("hi from test component")
     }
