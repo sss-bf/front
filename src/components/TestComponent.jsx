@@ -17,11 +17,13 @@ const TestComponent = ({ state, setState }) => { // ✅ Receive chatbot state (i
     setState((prev) => ({ ...prev, isProcessing: true }));
 
     const formData = new FormData();
+    console.log("TestComponent - " + state.photoOption);
+    formData.append("option", state.photoOption);
     formData.append("url", state.imageUrl);
     formData.append("intend", state.userMessage);
 
     try {
-      const res = await fetch("http://localhost:8080", {
+      const res = await fetch("http://localhost:8080/test", {
         method: "POST",
         body: formData,
       });

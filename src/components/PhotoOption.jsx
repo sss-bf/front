@@ -3,11 +3,19 @@ import React from "react";
 const PhotoOption = ({ setState, actionProvider }) => {
   const handleOptionSelect = (option) => {
     console.log("📸 Selected Photo Option:", option);
+    let photoOption;
+    if(option == "인물"){
+      photoOption = 1;
+    }
+    else if(option == "사물"){
+      photoOption = 2;
+    }
 
+    console.log("PhotoOption.jsx : After if  - " + option);
     // ✅ Save selected option in chatbot state
     setState((prev) => ({
       ...prev,
-      photoOption: option,
+      photoOption: photoOption,
     }));
 
     // ✅ Trigger next step in chatbot (Modify this to fit your logic)
