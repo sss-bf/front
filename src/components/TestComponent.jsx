@@ -5,7 +5,7 @@ const TestComponent = ({ state, setState }) => {
   const isRequesting = useRef(false);
 
   const sendPostRequest = async () => {
-    if (isRequesting.current) return;
+    if (!state.imageUrl || !state.userMessage || isRequesting.current) return;
 
     isRequesting.current = true;
 
@@ -56,7 +56,7 @@ const TestComponent = ({ state, setState }) => {
     }
   }, [state.imageUrl, state.userMessage]);
 
-  // ✅ Ensure `botMessage` is created only when image is fully set
+  // ✅ Ensure `botMessage` is created only when image and text exist
   useEffect(() => {
     if (state.aiGuideText && state.aiGuideImage) {
       console.log("✅ Guide image available, creating bot message...");
@@ -70,6 +70,21 @@ const TestComponent = ({ state, setState }) => {
         ...prev,
         messages: [...prev.messages, botMessage],
       }));
+
+      // ✅ Wait for bot message to be displayed, then ask for file upload
+      setTimeout(() => {
+        setState((prev) => ({
+          ...prev,
+          aiGuideText: "",
+          aiGuideImage: "",
+          messages: [
+            ...prev.messages,
+            createChatBotMessage("📂 파일을 추가로 업로드 하시겠습니까?", {
+              widget: "fileUpload",
+            }),
+          ],
+        }));
+      }, 2000); // ✅ Delay to ensure the previous message is fully processed
     }
   }, [state.aiGuideText, state.aiGuideImage]); // ✅ Wait until both are set
 
