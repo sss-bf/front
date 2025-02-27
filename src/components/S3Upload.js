@@ -11,6 +11,8 @@
 //     const ACCESS_KEY = process.env.REACT_APP_AWS_ACCESS_KEY;
 //     const SECRET_KEY = process.env.REACT_APP_AWS_SECRET_KEY;
 
+// git action secret 수정
+
 //     AWS.config.update({
 //         accessKeyId: ACCESS_KEY,
 //         secretAccessKey: SECRET_KEY,
