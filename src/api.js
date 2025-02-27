@@ -1,8 +1,9 @@
-const API_URL = "http://localhost:8080/test"; // 백엔드 API URL
+const API_URL = `${process.env.REACT_APP_API_BASE_URL}/test`; // 백엔드 API URL
 
 export const sendPostRequest = async (data) => {
   try {
-    const response = await fetch(API_URL, {
+    // const response = await fetch("http://localhost:80801/test", {
+      const response = await fetch(`${API_URL}/test`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

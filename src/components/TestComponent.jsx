@@ -4,6 +4,10 @@ import {
   createCustomMessage,
 } from "react-chatbot-kit";
 
+
+const API_URL = `${process.env.REACT_APP_API_BASE_URL}/test`; // 백엔드 API URL
+
+
 const TestComponent = ({ state, setState }) => { // ✅ Receive chatbot state (imageUrl, userMessage)
   const [response, setResponse] = useState(null);
   const [imgUrl, setImgUrl] = useState("");
@@ -18,7 +22,8 @@ const TestComponent = ({ state, setState }) => { // ✅ Receive chatbot state (i
     formData.append("intend", state.userMessage);
 
     try {
-      const res = await fetch("http://localhost:8080/test", {
+      // const res = await fetch("http://localhost:8081/test", {
+      const res = await fetch(API_URL, {
         method: "POST",
         body: formData,
       });

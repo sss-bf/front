@@ -3,7 +3,7 @@ name : Deploy-Production
 on:
     push:
         branches:
-            - main
+            - prod
 jobs:
     build:
         runs-on: ubuntu-latest
@@ -23,6 +23,15 @@ jobs:
             - name: Build Production.
               run: CI=false npm run build --if-present
               
+            - name: Create .env file
+              run: |
+                echo "REACT_APP_API_BASE_URL=${{ secrets.PROD_API_BASE_URL }}" > .env
+                echo "REACT_APP_S3_BUCKET_NAME=${{ secrets.PROD_S3_BUCKET_NAME }}" >> .env
+                echo "REACT_APP_S3_REGION=${{ secrets.PROD_S3_REGION }}" >> .env
+                echo "REACT_APP_AWS_ACCESS_KEY=${{ secrets.S3_AWS_ACCESS_KEY }}" >> .env
+                echo "REACT_APP_AWS_SECRET_KEY=${{ secrets.S3_AWS_SECRET_KEY }}" >> .env
+            
+
             - name: Configure AWS Credentials
               uses: aws-actions/configure-aws-credentials@v1
               with:
