@@ -38,7 +38,6 @@ const TestComponent = ({ state, setState }) => { // ✅ Receive chatbot state (i
         ...prev,
         aiGuideText: data.guideText, // ✅ Save AI-generated text
         aiGuideImage: data.guideImageUrl, // ✅ Save AI-generated image
-        isProcessing: false,
       }));
 
       const botMessage = createChatBotMessage(`${data.guideText}`, {
@@ -58,6 +57,7 @@ const TestComponent = ({ state, setState }) => { // ✅ Receive chatbot state (i
           ...prev,
           aiGuideText: "",
           aiGuideImage: "",
+          isProcessing: false,
           messages: [
             ...prev.messages,
             createChatBotMessage("📂 파일을 추가로 업로드 하시겠습니까?", {
