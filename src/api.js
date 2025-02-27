@@ -1,9 +1,10 @@
-const API_URL = `${process.env.REACT_APP_API_BASE_URL}/test`; // 백엔드 API URL
+const API_URL = `${process.env.REACT_APP_API_BASE_URL}/test`; // 배포 백엔드 API URL
+// const API_URL = `${process.env.REACT_APP_API_LOCAL_URL}/test`; // 로컬 백엔드 API URL
 
 export const sendPostRequest = async (data) => {
   try {
     // const response = await fetch("http://localhost:80801/test", {
-      const response = await fetch(`${API_URL}/test`, {
+      const response = await fetch(`${API_URL}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

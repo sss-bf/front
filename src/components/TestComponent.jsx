@@ -5,7 +5,8 @@ import {
 } from "react-chatbot-kit";
 
 
-const API_URL = `${process.env.REACT_APP_API_BASE_URL}/test`; // 백엔드 API URL
+const API_URL = `${process.env.REACT_APP_API_BASE_URL}/test`; // 배포 백엔드 API URL
+// const API_URL = `${process.env.REACT_APP_API_LOCAL_URL}/test`; // 로컬 백엔드 API URL
 
 
 const TestComponent = ({ state, setState }) => { // ✅ Receive chatbot state (imageUrl, userMessage)

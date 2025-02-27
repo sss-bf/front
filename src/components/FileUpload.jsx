@@ -12,9 +12,6 @@ const DogPicture = ({ actionProvider }) => {
   const ACCESS_KEY = process.env.REACT_APP_AWS_ACCESS_KEY;
   const SECRET_KEY = process.env.REACT_APP_AWS_SECRET_KEY;
 
-  console.log(S3_BUCKET)
-  console.log(REGION)
-  console.log(ACCESS_KEY)
 
   AWS.config.update({
     accessKeyId: ACCESS_KEY,
