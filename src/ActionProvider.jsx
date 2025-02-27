@@ -25,8 +25,6 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         return prev; // Ignore new requests
       }
 
-      console.log("✅ New request received:", userMessage);
-
       const botMessage = createChatBotMessage(
         "답변을 생성 중입니다. 잠시만 기다려 주세요...",
         {
@@ -57,23 +55,51 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
   
     // Function when a file is selected
-    const handleFileSelected = (imageUrl) => {
-      const message = createChatBotMessage("사진이 선택되었습니다. 원하시는 가이드를 입력해주세요.");
+    const handleFileSelected = async (imageUrl) => {
+      const imageMessage = await createChatBotMessage("📷 업로드된 사진:", {
+        widget: "uploadedImage", // ✅ Add a widget to display the image
+        payload: { imageUrl: imageUrl }, // ✅ Pass image URL as a payload
+      });
+      const message = createChatBotMessage("사진이 선택되었습니다. 촬영 의도가 있다면 입력하시고, 평가를 원하시면 엔터를 누르세요.");
       setState((prev) => ({
         ...prev,
         imageUrl: imageUrl,
-        messages: [...prev.messages, message],
+        messages: [...prev.messages, imageMessage, message],
       }));
     };
   
     // Function when "No File Given" is clicked
     const handleNoFileSelected = () => {
-      const message = createChatBotMessage("사진이 선택되지 않았습니다. 원하시는 가이드를 입력해주세요.");
+      const message = createChatBotMessage("궁금한 사항을 텍스트로 입력해주세요.");
       setState((prev) => ({
         ...prev,
         messages: [...prev.messages, message],
       }));
     };
+
+        // Function when a file is selected
+        const newhandleFileSelected = async (imageUrl) => {
+          const imageMessage = await createChatBotMessage("📷 업로드된 사진:", {
+            widget: "uploadedImage", // ✅ Add a widget to display the image
+            payload: { imageUrl: imageUrl }, // ✅ Pass image URL as a payload
+          });
+          const message = createChatBotMessage("사진이 선택되었습니다. 촬영 의도가 있다면 입력하시고, 평가를 원하시면 엔터를 누르세요.");
+          setState((prev) => ({
+            ...prev,
+            imageUrl: imageUrl,
+            messages: [...prev.messages, imageMessage, message],
+          }));
+        };
+      
+        // Function when "No File Given" is clicked
+        const newhandleNoFileSelected = () => {
+          const message = createChatBotMessage("궁금한 사항을 텍스트로 입력해주세요.");
+          setState((prev) => ({
+            ...prev,
+            imageUrl: "",
+            messages: [...prev.messages, message],
+          }));
+        };
 
   // Put the handleHello and handleDog function in the actions object to pass to the MessageParser
   return (
@@ -84,6 +110,8 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
             handleDog,
             handleFileSelected,
             handleNoFileSelected,
+            newhandleFileSelected,
+            newhandleNoFileSelected,
             handleElse,
             handlePhotoOptionSelected
           },

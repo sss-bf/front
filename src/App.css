@@ -1,5 +1,6 @@
 @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css); 
 @import url(http://fonts.googleapis.com/earlyaccess/hanna.css); 
+@import url(https://hangeul.pstatic.net/hangeul_static/css/NanumBarunGothicYetHangul.css);
 .hanna { font-family: 'hanna'; } 
 .nanum { font-family: 'Nanum Barun Gothic'; } 
 
@@ -17,7 +18,13 @@
   background-color: #f9f9f9;
 }
 
+.react-chatbot-kit-chat-message-container{
+  height: 60vh !important;
+  margin-top: 10px !important;
+}
+
 .react-chatbot-kit-chat-inner-container{
+  height: 80% !important;
   width: 50% !important;
 }
 
@@ -28,8 +35,15 @@
   border-radius: 10px !important;
   padding: 10px !important;
   max-width: 80% !important;
+  width: 65% !important;
   text-align: left !important;
+  white-space: pre-line !important;
   border: 2px solid rgba(100, 100, 100, 0.3) !important; /* ✅ Border added */
+}
+
+.react-chatbot-kit-chat-bot-avatar-container{
+  height: 5vw !important;
+  width: 5vw !important;
 }
 
 .react-chatbot-kit-chat-bot-message-container{
@@ -45,6 +59,10 @@
   transform: translateX(-3px) !important;
 }
 
+.react-chatbot-kit-user-avatar-container{
+  background-color: #a71f31 !important;
+}
+
 /* ✅ User message styles */
 .react-chatbot-kit-user-chat-message {
   background-color: transparent !important;
@@ -54,30 +72,22 @@
   padding: 10px !important;
   max-width: 80% !important;
   text-align: left !important;
-  border: 2px solid rgba(255, 123, 84, 0.7) !important; /* ✅ Border added */
+  border: 2px solid #a71f31 !important; /* ✅ Border added */
 }
 
 .react-chatbot-kit-user-chat-message-arrow {
   transform: translateX(3px);
-  border-left-color: rgba(255, 123, 84, 0.7) !important; /* ✅ Change for user messages */
+  border-left-color: #a71f31 !important; /* ✅ Change for user messages */
 }
 
 
 /* ✅ Chat button */
 .react-chatbot-kit-chat-btn-send {
-  background-color: #ff7b54 !important;
+  background-color: #a71f31 !important;
   border-radius: 50%;
+  margin-left: 3px !important;
   pointer-events: none !important;
-  opacity: 0.5;
   cursor: not-allowed;
-}
-
-.react-chatbot-kit-chat-btn-send:disabled {
-  pointer-events: none;
-  opacity: 0.5;
-  cursor: not-allowed;
-  background-color: #ff7b54 !important;
-  border-radius: 50%;
 }
 
 .react-chatbot-kit-chat-input-container{
@@ -87,7 +97,8 @@
 /* ✅ Chat input box */
 .react-chatbot-kit-chat-input {
   border-radius: 5px;
-  padding: 8px;
+  border: 2px rgba(33, 66, 96, 0.3) solid !important;
+  padding: 5px;
 }
 
 

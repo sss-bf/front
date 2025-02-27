@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AWS from "aws-sdk";
 
-const FileUpload = ({ actionProvider }) => {
+const NewFileUpload = ({ actionProvider }) => {
   const [file, setFile] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [isUploading, setIsUploading] = useState(false);
@@ -80,7 +80,7 @@ const FileUpload = ({ actionProvider }) => {
           onMouseLeave={(e) => (e.target.style.backgroundColor = "rgb(31, 31, 31)")}
           onClick={() => document.getElementById("fileInput").click()}
         >
-          📂 사진 올리기
+          📂 새로운 사진 평가 받기
         </button>
         <button
           style={buttonStyle}
@@ -88,7 +88,7 @@ const FileUpload = ({ actionProvider }) => {
           onMouseLeave={(e) => (e.target.style.backgroundColor = "rgb(31, 31, 31)")}
           onClick={handleNoFile}
         >
-          🚫 사진 없이 실행
+          ❓ 추가 질문하기
         </button>
       </>
     )}
@@ -98,6 +98,23 @@ const FileUpload = ({ actionProvider }) => {
         <div style={{ marginTop: "20px" }}>
           <p>📂 Uploading image... Please wait.</p>
           <div className="spinner"></div>
+        </div>
+      )}
+
+      {/* Show uploaded image after delay */}
+      {showImage && imageUrl && (
+        <div style={{ marginTop: "20px"}}>
+          <img 
+            src={imageUrl} 
+            alt="Uploaded" 
+            width="300"
+            onLoad={() => setIsUploading(false)} 
+            onError={() => {
+              setIsUploading(false);
+              setImageUrl("");
+              console.error("Image failed to load.");
+            }}
+          />
         </div>
       )}
 
@@ -145,4 +162,4 @@ const buttonHoverStyle = {
 };
 
 
-export default FileUpload;
+export default NewFileUpload;

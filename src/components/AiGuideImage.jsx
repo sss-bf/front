@@ -7,7 +7,12 @@ const AiGuideImage = ({ payload }) => {
     
   return (
     <div style={{
-      backgroundColor: "rgb(87,86,86)",
+      display: "flex",
+      justifyContent: "center",
+      backgroundColor: "transparent",
+      border: "2px rgba(100, 100, 100, 0.3) solid",
+      width: "70vw",
+      marginLeft: "7vw",
       padding: "10px",
       borderRadius: "8px",
       maxWidth: "250px",
@@ -18,7 +23,7 @@ const AiGuideImage = ({ payload }) => {
           src={payload.image} 
           alt="AI Generated Guide" 
           width="200" 
-          style={{ borderRadius: "8px", marginTop: "5px" }}
+          style={{ borderRadius: "8px", marginTop: "5p"}}
         />
       )}
     </div>
