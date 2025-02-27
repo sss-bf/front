@@ -2,14 +2,15 @@ import React, { useState } from "react";
 
 const TestComponent = () => {
   const [response, setResponse] = useState(null);
+  const [imgUrl, setImgUrl] = useState("");
 
   const sendPostRequest = async () => {
     const formData = new FormData();
-    formData.append("text1", "test_url");
-    formData.append("text2", "안녕하세요");
+    formData.append("url", "https://sss-bf-image-bucket.s3.ap-northeast-2.amazonaws.com/1.jpeg");
+    formData.append("intend", "안녕하세요");
 
     try {
-      const res = await fetch("http://localhost:8080/test", {
+      const res = await fetch("http://localhost:8081/test", {
         method: "POST",
         body: formData, // FormData 사용
       });
@@ -21,6 +22,14 @@ const TestComponent = () => {
       const data = await res.json();
       setResponse(data);
       console.log("응답 데이터:", data);
+      console.log("이미지 URL", data.guideImageUrl)
+
+      const receive = data.guideImageUrl
+
+      setImgUrl(receive)
+
+
+      console.log("이미지 URL", data.guideText)
     } catch (error) {
       console.error("POST 요청 오류:", error);
     }
@@ -31,6 +40,7 @@ const TestComponent = () => {
       <h1>React fetch API로 FormData POST 요청</h1>
       <button onClick={sendPostRequest}>POST 요청 보내기</button>
       {response && <pre>{JSON.stringify(response, null, 2)}</pre>}
+      <img src={imgUrl} width={300} height={300} alt="Generated Image"/>
     </div>
   );
 };
