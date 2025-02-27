@@ -21,7 +21,7 @@ const TestComponent = ({ state, setState }) => { // ✅ Receive chatbot state (i
     const formData = new FormData();
     formData.append("url", state.imageUrl);
     formData.append("intend", state.userMessage);
-
+    console.log(API_URL)
     try {
       // const res = await fetch("http://localhost:8081/test", {
       const res = await fetch(API_URL, {
