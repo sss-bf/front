@@ -1,0 +1,17 @@
+version: '3'
+services:
+  react-app:
+    build:
+      context: .
+      dockerfile: Dockerfile  # Dockerfile 이름 지정 (필요하면 변경)
+      # platforms:
+        # - linux/amd64  # 플랫폼 명시
+      args:
+        REACT_APP_AWS_ACCESS_KEY: ${REACT_APP_AWS_ACCESS_KEY}
+        REACT_APP_AWS_SECRET_KEY: ${REACT_APP_AWS_SECRET_KEY}
+        REACT_APP_S3_BUCKET_NAME: ${REACT_APP_S3_BUCKET_NAME}
+        REACT_APP_S3_REGION: ${REACT_APP_S3_REGION}
+        REACT_APP_API_BASE_URL: ${REACT_APP_API_BASE_URL}
+        REACT_APP_API_LOCAL_URL: ${REACT_APP_API_LOCAL_URL}
+    ports:
+      - "80:80"
