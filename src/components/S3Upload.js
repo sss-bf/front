@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AWS from "aws-sdk";
+import axios from "axios"
 
 const S3Upload = () => {
     const [file, setFile] = useState(null);
@@ -10,6 +11,9 @@ const S3Upload = () => {
     const REGION = process.env.REACT_APP_S3_REGION;
     const ACCESS_KEY = process.env.REACT_APP_AWS_ACCESS_KEY;
     const SECRET_KEY = process.env.REACT_APP_AWS_SECRET_KEY;
+    
+    // 환경변수에서 로컬 백엔드 주소 가져오기
+    const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
     console.log("📌 AWS SDK 설정:");
     console.log("S3_BUCKET:", S3_BUCKET);
@@ -29,6 +33,39 @@ const S3Upload = () => {
     const handleFileChange = (event) => {
         setFile(event.target.files[0]);
     };
+
+    // const instance = axios.create({
+    //     baseURL : BASE_URL,
+    //     timeout  : 1000,
+    // })
+
+    const handleGetReqtoBack = async () => {
+        try{
+            const res = await axios.get(`${BASE_URL}/test`)
+            console.log(res)
+        }
+        catch(err){
+            console.error(err)
+        }
+    }
+
+    const sentUrltoBack = async () => {
+        try {
+            console.log(imageUrl)
+            const res = await axios.post(`${BASE_URL}/test`, {
+                url: imageUrl,
+                intent: "멋지게"
+            }, {
+                headers: {
+                    // "Content-Type": "application/json"
+                }
+            });
+            console.log(res);
+        } catch (error) {
+            console.error("Error:", error.response ? error.response.data : error.message);
+        }
+    };
+    
 
     const uploadToS3 = async () => {
         if (!file) {
@@ -57,6 +94,8 @@ const S3Upload = () => {
 
     return (
         <div>
+            <button onClick={handleGetReqtoBack}>백에 GET 요청 보내기</button>
+            <hr />
             <input type="file" onChange={handleFileChange} />
             <button onClick={uploadToS3}>S3 업로드</button>
             {imageUrl && (
@@ -65,6 +104,7 @@ const S3Upload = () => {
                     <img src={imageUrl} alt="Uploaded" width="300" />
                 </div>
             )}
+            <button onClick={sentUrltoBack}>백엔드로 URL 전송</button>
         </div>
     );
 };
